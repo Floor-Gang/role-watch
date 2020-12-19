@@ -1,7 +1,7 @@
 import { Client } from 'discord.js'
 import { token } from "./config.json"
 import { t3roleID } from "./config.json"
-import { roles } from "./roles.json"
+import { roles } from "./config.json"
 const bot = new Client()
 //Clasic imports
 
@@ -29,7 +29,7 @@ bot.on("guildMemberUpdate", async (oldMember, newMember) => {
 
             }
 
-        }//for loop checking and removing all colour roles listed in roles.json
+        }//for loop checking and removing all colour roles listed in roles from config.json
 
     }
 
