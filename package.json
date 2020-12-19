@@ -1,0 +1,25 @@
+{
+  "name": "color-roles",
+  "version": "1.0.0",
+  "description": "Strip color based roles from users that aren't tier 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Floor-Gang/color-roles.git"
+  },
+  "author": "KingOKarma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Floor-Gang/color-roles/issues"
+  },
+  "homepage": "https://github.com/Floor-Gang/color-roles#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "tsc": "^1.20150623.0",
+    "typescript": "^4.1.3"
+  }
+}
