@@ -1,43 +1,32 @@
+/* eslint-disable no-await-in-loop */
 import { Client } from 'discord.js';
-import * as yaml from 'js-yaml';
-import * as fs from 'fs';
+import Config from './config/config';
 
+const CONFIG = Config.getConfig();
 
-    let fileContents = fs.readFileSync('config.yml', 'utf8');
-    let data = yaml.safeLoad(fileContents);
-    
+const bot = new Client();
+bot.on('ready', async () => {
+  if (bot.user === null) {
+    return;
+  }
+  console.log(`${bot.user.tag} is online!`);
+  await bot.user.setActivity('your subs', { type: 'WATCHING' });
+});
 
-    console.log(data);
+bot.on('guildMemberUpdate', async (oldMember, newMember) => {
+  const oldRole = oldMember.roles.cache.get(CONFIG.t3roleID.toLocaleString());
+  const newRole = newMember.roles.cache.get(CONFIG.t3roleID.toLocaleString());
+  // check if member update was removing the tier 3 role
+  if (oldRole && !newRole) {
+    CONFIG.roles.forEach(async (role) => {
+      const memberRoles = newMember.roles.cache;
+      const invalidRole = memberRoles.get(role);
 
-// const bot = new Client()
+      if (invalidRole) {
+        await newMember.roles.remove(CONFIG.roles, 'No Longer Tier 3');
+      }
+    });
+  }
+});
 
-
-// bot.on("ready", async () => {
-//     if (bot.user === null) return
-//     console.log(`${bot.user.tag} is online!`);
-//     await bot.user.setActivity('your subs', { type: "WATCHING" })
-
-// })
-
-// bot.on("guildMemberUpdate", async (oldMember, newMember) => {
-
-//     if (oldMember.roles.cache.get(t3roleID) && !newMember.roles.cache.get(t3roleID)) {
-//         //check if member update was removing the tier 3 role
-//         const memberRoles = newMember.roles.cache
-//         //for loop checking and removing all colour roles listed in roles from config.json
-//         for (const role of roles) {
-//             const invalidRole = memberRoles.get(role)
-
-//             if (invalidRole) {
-//                 await newMember.roles.remove(role, "No Longer Tier 3")
-
-//             }
-
-//         }
-
-//     }
-
-
-// })
-
-// bot.login()
+bot.login(CONFIG.token);
