@@ -22,8 +22,6 @@ bot.on('guildMemberUpdate', (_, newMember) => {
   if (foundWhitelist) {
     return;
   }
-  console.log(check);
-  console.log(`config array: ${CONFIG.t3roleID.length}`);
   // Loop over member roles to check if they have colour roles
   const foundColourRole = check.some((colourRole) => CONFIG.roles.includes(colourRole));
   if (foundColourRole) {
