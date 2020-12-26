@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { Client } from 'discord.js';
 import Config from './config/config';
 
@@ -10,18 +9,27 @@ bot.on('ready', async () => {
     return;
   }
   console.log(`${bot.user.tag} is online!`);
-  await bot.user.setActivity('your subs', { type: 'WATCHING' });
+  await bot.user.setActivity('your colour(s)', { type: 'WATCHING' });
 });
 
-bot.on('guildMemberUpdate', async (oldMember, newMember) => {
-  const oldRole = oldMember.roles.cache.get(CONFIG.t3roleID.toLocaleString());
-  const newRole = newMember.roles.cache.get(CONFIG.t3roleID.toLocaleString());
-  // check if member update was removing the tier 3 role
-  if (oldRole && !newRole) {
+bot.on('guildMemberUpdate', (_, newMember) => {
+  const check: string[] = [];
+  newMember.roles.cache.forEach((role) => {
+    check.push(role.id);
+  });
+  // Loop over member roles to check if they have whitelisted roles
+  const foundWhitelist = check.some((whitelistRole) => CONFIG.t3roleID.includes(whitelistRole));
+  if (foundWhitelist) {
+    return;
+  }
+  console.log(check);
+  console.log(`config array: ${CONFIG.t3roleID.length}`);
+  // Loop over member roles to check if they have colour roles
+  const foundColourRole = check.some((colourRole) => CONFIG.roles.includes(colourRole));
+  if (foundColourRole) {
     CONFIG.roles.forEach(async (role) => {
       const memberRoles = newMember.roles.cache;
       const invalidRole = memberRoles.get(role);
-
       if (invalidRole) {
         await newMember.roles.remove(CONFIG.roles, 'No Longer Tier 3');
       }
