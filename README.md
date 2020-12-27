@@ -1,6 +1,8 @@
-# color-roles
-Strip color based roles from users that aren't tier 3
+# role-watch
+##### Otherwise known as colour-roles
+Strip color based roles from users that aren't on the dedicated whitelist
 
+---
 
 ```Setup```
 
@@ -8,3 +10,21 @@ Strip color based roles from users that aren't tier 3
 - run script `npm start`
 - Get cool bot
 
+---
+
+```Commands```
+
+- `c.add` (Adds to whitelist)
+- `c.remove` (Removes from whitelist)
+- `c.list` (Lists all whitelisted roles)
+
+---
+
+```Required perms```
+##### Users:
+- `MANAGE_ROLES`
+##### Bot:
+- `MANAGE_ROLES`
+- `EMBED_LINKS` (Not required but prefered if you want an embed for `c.list`)
+
+---
