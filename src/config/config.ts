@@ -1,6 +1,3 @@
-import fs from 'fs';
-import * as yaml from 'js-yaml';
-
 /**
  * This represents the config.yml
  * @class Config
@@ -21,13 +18,13 @@ export default class Config {
       this.roles = [''];
     }
 
-    /**
-     * @throws {Error} If an attribute is missing from the config.yml
-     */
-    public static getConfig(): Config {
-      const fileContents = fs.readFileSync('./config.yml', 'utf-8');
-      const casted = yaml.safeLoad(fileContents) as Config;
+  // /**
+  //  * @throws {Error} If an attribute is missing from the config.yml
+  //  */
+  // public static getConfig(): Config {
+  //   const fileContents = fs.readFileSync('./config.yml', 'utf-8');
+  //   const casted = yaml.safeLoad(fileContents) as Config;
 
-      return casted;
-    }
+  //   return casted;
+  // }
 }

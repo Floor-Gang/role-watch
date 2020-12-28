@@ -1,10 +1,11 @@
+import { Message } from 'discord.js';
 import * as commando from 'discord.js-commando';
 import fs from 'fs';
 import * as yaml from 'js-yaml';
-import Config from '../../config/config';
 import { getRole } from '../../utils';
+import { doc } from '../../globals';
 
-module.exports = class AddCommand extends commando.Command {
+export default class AddCommand extends commando.Command {
   constructor(client: commando.CommandoClient) {
     super(client, {
       name: 'add',
@@ -28,12 +29,16 @@ module.exports = class AddCommand extends commando.Command {
     });
   }
 
-  run(msg: commando.CommandoMessage, { roleID }: { roleID: string }) {
+  public async run(
+    msg: commando.CommandoMessage,
+    { roleID }: { roleID: string },
+  ): Promise<Message | Message[] | null> {
     const role = getRole(roleID, msg.guild);
-    if (role === undefined) {
+    // if the first argument is the @everyone id or undefined return
+    if (role === undefined || roleID === msg.guild.id) {
       return msg.reply('That\' not a role!');
     }
-    const doc = yaml.safeLoad(fs.readFileSync('./config.yml', 'utf8')) as Config;
+
     if (doc.t3roleID.includes(role.id)) {
       return msg.say(`\`${role.name}\` is already on the whitelist!`);
     } if (doc.roles.includes(role.id)) {
@@ -44,4 +49,4 @@ module.exports = class AddCommand extends commando.Command {
     msg.say(`I have added the role \`${role.name}\` to the whitelist!`);
     return null;
   }
-};
+}

@@ -1,10 +1,8 @@
-import { MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import * as commando from 'discord.js-commando';
-import fs from 'fs';
-import * as yaml from 'js-yaml';
-import Config from '../../config/config';
+import { doc } from '../../globals';
 
-module.exports = class AddCommand extends commando.Command {
+export default class AddCommand extends commando.Command {
   constructor(client: commando.CommandoClient) {
     super(client, {
       name: 'list',
@@ -21,8 +19,12 @@ module.exports = class AddCommand extends commando.Command {
     });
   }
 
-  run(msg: commando.CommandoMessage) {
-    const doc = yaml.safeLoad(fs.readFileSync('./config.yml', 'utf8')) as Config;
+  public async run(
+    msg: commando.CommandoMessage,
+  ): Promise<Message | Message[] | null> {
+    if (!doc.t3roleID.length) {
+      return msg.say('The list is currently emtpy! use `c.add <role>` to add a role to the whitelist!');
+    }
     const roleList = doc.t3roleID.map((list) => `○ <@&${list}>\n`);
     const embed = new MessageEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ dynamic: true }))
@@ -35,4 +37,4 @@ module.exports = class AddCommand extends commando.Command {
       });
     return null;
   }
-};
+}
