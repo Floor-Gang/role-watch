@@ -1,5 +1,0 @@
-{
-    "token": "TOKEN_HERE_NOW",
-    "t3roleID": "ROLE_ID FOR TIER 3",
-    "roles": ["ARRAY_OF_ROLES_TO_BE_REMOVED"]
-}
