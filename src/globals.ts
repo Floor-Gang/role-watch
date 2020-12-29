@@ -1,6 +1,6 @@
-import { BitFieldResolvable, PermissionString } from 'discord.js';
-import Config from './config/config';
+import { PermissionString } from 'discord.js';
+import Config from './config';
 
 export const CONFIG = Config.getConfig();
 
-export const rolePerms: BitFieldResolvable<PermissionString>[] = ['MANAGE_ROLES'];
+export const rolePerms: PermissionString[] = ['MANAGE_ROLES'];

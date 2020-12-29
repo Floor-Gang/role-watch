@@ -23,19 +23,27 @@ export default class AddCommand extends commando.Command {
     msg: commando.CommandoMessage,
   ): Promise<Message | Message[]> {
     if (!CONFIG.t3roleID.length) {
-      return msg.say('The list is currently emtpy! use `c.add <role>` to add a role to the whitelist!');
+      return msg.say(
+        `The list is currently emtpy! use ${CONFIG.prefix}add <role>`
+        + 'to add a role to the whitelist!',
+      );
     }
+
     const roleList = CONFIG.t3roleID.map((list) => `○ <@&${list}>\n`);
     const embed = new MessageEmbed()
-      .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ dynamic: true }))
+      .setAuthor(
+        msg.author.tag,
+        msg.author.displayAvatarURL({ dynamic: true }),
+      )
       .setTitle('Whitelist List')
       .setTimestamp()
       .setDescription(roleList.join(''));
 
     try {
       return msg.say(embed);
-    } catch {
-      return msg.say(`Whitelisted roles:\n ${roleList.join('')}`);
+    } catch (_) {
+      const roles = roleList.join('');
+      return msg.say(`Whitelisted roles:\n ${roles}`);
     }
   }
 }

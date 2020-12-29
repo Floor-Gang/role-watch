@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { safeDump, safeLoad } from 'js-yaml';
-import { CONFIG } from '../globals';
 
 /**
  * This represents the config.yml
@@ -19,6 +18,8 @@ export default class Config {
 
     public readonly roles: string[];
 
+    private static LOCATION = './config.yml';
+
     constructor() {
       this.token = '';
       this.prefix = '';
@@ -27,17 +28,30 @@ export default class Config {
     }
 
     /**
-     * @throws {Error} If an attribute is missing from the config.yml
+     * Call getConfig instead of constructor
      */
     public static getConfig(): Config {
-      const fileContents = fs.readFileSync('./config.yml', 'utf-8');
+      if (!fs.existsSync(Config.LOCATION)) {
+        throw new Error('Please create a config.yml');
+      }
+      const fileContents = fs.readFileSync(
+        Config.LOCATION,
+        'utf-8',
+      );
       const casted = safeLoad(fileContents) as Config;
 
       return casted;
     }
 
-    public static saveConfig() {
-      const save = fs.writeFileSync('./config.yml', safeDump(CONFIG), 'utf8');
-      return save;
+    /**
+     * Safe the config to the config.yml default location
+     */
+    public saveConfig(): void {
+      const serialized = safeDump(this);
+      fs.writeFileSync(
+        Config.LOCATION,
+        serialized,
+        'utf8',
+      );
     }
 }

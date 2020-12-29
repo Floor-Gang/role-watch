@@ -2,7 +2,6 @@ import { Message } from 'discord.js';
 import * as commando from 'discord.js-commando';
 import { getRole } from '../../utils';
 import { CONFIG, rolePerms } from '../../globals';
-import Config from '../../config/config';
 
 export default class AddCommand extends commando.Command {
   constructor(client: commando.CommandoClient) {
@@ -33,15 +32,24 @@ export default class AddCommand extends commando.Command {
     { roleID }: { roleID: string },
   ): Promise<Message | Message[]> {
     const role = getRole(roleID, msg.guild);
+
     if (role === undefined || roleID === msg.guild.id) {
       return msg.reply('That\' not a role! ❌');
     }
+
     if (!CONFIG.t3roleID.includes(role.id)) {
       return msg.say(`\`${role.name}\` is not on the whitelist! ❌`);
     }
+
     const roleIndex = CONFIG.t3roleID.indexOf(role.id);
+
     CONFIG.t3roleID.splice(roleIndex, 1);
-    Config.saveConfig();
-    return msg.say(`I have removed the role \`${role.name} \` from the whitelist ✅\n*Anyone currently with \`${role.name}\` you will have to remove roles manually*`);
+    CONFIG.saveConfig();
+
+    return msg.say(
+      `I have removed the role \`${role.name} \` from the whitelist ✅`
+      + `\n*Anyone currently with \`${role.name}\` you will have to`
+      + ' remove roles manually*',
+    );
   }
 }
