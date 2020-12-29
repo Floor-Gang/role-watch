@@ -4,8 +4,8 @@ import { CONFIG } from './globals';
 
 const bot = new Client({
   commandPrefix: CONFIG.prefix,
-
 });
+
 bot.on('ready', async () => {
   if (bot.user === null) {
     return;
@@ -21,11 +21,13 @@ bot.on('guildMemberUpdate', (_, newMember) => {
   });
   // Loop over member roles to check if they have whitelisted roles
   const foundWhitelist = check.some((whitelistRole) => CONFIG.t3roleID.includes(whitelistRole));
+
   if (foundWhitelist) {
     return;
   }
   // Loop over member roles to check if they have colour roles
   const foundColourRole = check.some((colourRole) => CONFIG.roles.includes(colourRole));
+
   if (foundColourRole) {
     CONFIG.roles.forEach(async (role) => {
       const memberRoles = newMember.roles.cache;
@@ -36,6 +38,7 @@ bot.on('guildMemberUpdate', (_, newMember) => {
     });
   }
 });
+
 bot.registry
   .registerGroups([
     ['whitelist', 'Interact with the role remover'],
