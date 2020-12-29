@@ -1,9 +1,9 @@
 import { Client } from 'discord.js-commando';
 import path from 'path';
-import { doc } from './globals';
+import { CONFIG } from './globals';
 
 const bot = new Client({
-  commandPrefix: 'c.',
+  commandPrefix: CONFIG.prefix,
 
 });
 bot.on('ready', async () => {
@@ -20,14 +20,14 @@ bot.on('guildMemberUpdate', (_, newMember) => {
     check.push(role.id);
   });
   // Loop over member roles to check if they have whitelisted roles
-  const foundWhitelist = check.some((whitelistRole) => doc.t3roleID.includes(whitelistRole));
+  const foundWhitelist = check.some((whitelistRole) => CONFIG.t3roleID.includes(whitelistRole));
   if (foundWhitelist) {
     return;
   }
   // Loop over member roles to check if they have colour roles
-  const foundColourRole = check.some((colourRole) => doc.roles.includes(colourRole));
+  const foundColourRole = check.some((colourRole) => CONFIG.roles.includes(colourRole));
   if (foundColourRole) {
-    doc.roles.forEach(async (role) => {
+    CONFIG.roles.forEach(async (role) => {
       const memberRoles = newMember.roles.cache;
       const invalidRole = memberRoles.get(role);
       if (invalidRole) {
@@ -42,4 +42,4 @@ bot.registry
   ])
   .registerDefaults()
   .registerCommandsIn(path.join(__dirname, 'commands'));
-bot.login(doc.token);
+bot.login(CONFIG.token);

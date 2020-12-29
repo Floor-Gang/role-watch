@@ -1,7 +1,6 @@
-import { safeLoad } from 'js-yaml';
-import fs from 'fs';
+import { BitFieldResolvable, PermissionString } from 'discord.js';
 import Config from './config/config';
 
-export const doc = safeLoad(fs.readFileSync('./config.yml', 'utf8')) as Config;
+export const CONFIG = Config.getConfig();
 
-// export const CONFIG = Config.getConfig();
+export const rolePerms: BitFieldResolvable<PermissionString>[] = ['MANAGE_ROLES'];
