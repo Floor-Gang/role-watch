@@ -42,22 +42,17 @@ export default class whitelistCommand extends commando.Command {
     { choice, roleID }: { choice: string, roleID: string },
   ): Promise<any> {
     switch (choice.toLowerCase()) {
-      default: {
-        msg.reply('Please give a choice');
-        break;
-      }
-      case 'add': {
-        addRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
-        break;
-      }
-      case 'remove': {
-        removeRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
-        break;
-      }
-      case 'list': {
-        listRoles(msg, CONFIG.t3roleID, 'Whitelist roles');
-        break;
-      }
+      case 'add':
+        return addRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
+
+      case 'remove':
+        return removeRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
+
+      case 'list':
+        return listRoles(msg, CONFIG.t3roleID, 'Whitelist roles');
+
+      default:
+        return msg.reply('Please give a choice');
     }
   }
 }
