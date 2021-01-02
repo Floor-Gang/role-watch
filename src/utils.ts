@@ -1,9 +1,26 @@
-import { Guild, Message, MessageEmbed } from 'discord.js';
+import {
+  Guild,
+  Message,
+  MessageEmbed,
+} from 'discord.js';
 import { CommandoMessage } from 'discord.js-commando';
 import Config from './config';
 
-export function getRole(rid: string, guild: Guild) {
+/**
+ * Used to check role mentions/ID's if they are roles
+ * @param {Guild} guild the Guild instance the of where the Role is from
+ * @param {string} rid The role mention/ID (Optional)
+ * @returns {Role} A Role instance or undefined
+ */
+export function getRole(
+  guild: Guild,
+  rid?: string,
+) {
   let ridParsed = rid;
+  // if the first argument is  undefined return
+  if (rid === undefined || ridParsed === undefined) {
+    return undefined;
+  }
   // Check if a role was tagged or not. If the role was tagged remove the
   // tag from rid.
   if (rid.startsWith('<@&') && rid.endsWith('>')) {
@@ -11,12 +28,7 @@ export function getRole(rid: string, guild: Guild) {
     ridParsed = rid.replace(re, '');
   }
   // Try recovering the role and report if it was successful or not.
-  try {
-    return guild.roles.cache.get(ridParsed);
-  } catch (e) {
-    console.log(`Role not found because ${e}`);
-    return undefined;
-  }
+  return guild.roles.cache.get(ridParsed);
 }
 
 /**
@@ -32,7 +44,7 @@ export function addRole(
   array: string[],
   array2: string[],
 ): Promise<Message | Message[]> {
-  const role = getRole(rid, msg.guild);
+  const role = getRole(msg.guild, rid);
 
   // if the first argument is the @everyone id or undefined return
   if (role === undefined || rid === msg.guild.id) {
@@ -54,7 +66,9 @@ export function addRole(
 
   // Otherwise finally add it to the list
   array.push(role.id);
+  console.log(Config.saveConfig());
   Config.saveConfig();
+
   return msg.say(
     `I have added the role \`${role.name}\` to the list! ✅`,
   );
@@ -73,7 +87,7 @@ export function removeRole(
   array: string[],
   array2: string[],
 ): Promise<Message | Message[]> {
-  const role = getRole(rid, msg.guild);
+  const role = getRole(msg.guild, rid);
 
   // if the first argument is the @everyone id or undefined return
   if (role === undefined || rid === msg.guild.id) {
@@ -117,7 +131,7 @@ export function listRoles(
   msg: CommandoMessage,
   array: string[],
   title: string,
-): Promise<MessageEmbed | Message | Message[]> {
+): Promise<Message | Message[]> {
   if (!array.length) {
     return msg.say(
       `The list is currently emtpy! use ${array}add <role>`

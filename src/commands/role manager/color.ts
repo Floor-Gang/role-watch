@@ -1,4 +1,5 @@
 import * as commando from 'discord.js-commando';
+import { Message } from 'discord.js';
 import {
   addRole,
   listRoles,
@@ -41,7 +42,7 @@ export default class colorCommand extends commando.Command {
   public async run(
     msg: commando.CommandoMessage,
     { choice, roleID }: { choice: string, roleID: string },
-  ): Promise<any> {
+  ): Promise<Message | Message[]> {
     switch (choice.toLowerCase()) {
       case 'add':
         return addRole(msg, roleID, CONFIG.roles, CONFIG.t3roleID);

@@ -51,7 +51,6 @@ export default class Config {
         Config.LOCATION,
         'utf8',
       )) as Config;
-
-      fs.writeFileSync(Config.LOCATION, safeDump(doc), 'utf8');
+      fs.writeFileSync(Config.LOCATION, safeDump(doc));
     }
 }
