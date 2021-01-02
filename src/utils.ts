@@ -1,4 +1,4 @@
-import { Guild, MessageEmbed } from 'discord.js';
+import { Guild, Message, MessageEmbed } from 'discord.js';
 import { CommandoMessage } from 'discord.js-commando';
 import Config from './config';
 
@@ -31,7 +31,7 @@ export function addRole(
   rid: string,
   array: string[],
   array2: string[],
-) {
+): Promise<Message | Message[]> {
   const role = getRole(rid, msg.guild);
 
   // if the first argument is the @everyone id or undefined return
@@ -72,7 +72,7 @@ export function removeRole(
   rid: string,
   array: string[],
   array2: string[],
-) {
+): Promise<Message | Message[]> {
   const role = getRole(rid, msg.guild);
 
   // if the first argument is the @everyone id or undefined return
@@ -111,8 +111,13 @@ export function removeRole(
  * @param {CommandoMessage} msg Message instance
  * @param {string[]} array The array to list
  * @param {string} title The list's name
+ * @returns {MessageEmbed} Emeded list of roles
  */
-export function listRoles(msg: CommandoMessage, array: string[], title: string) {
+export function listRoles(
+  msg: CommandoMessage,
+  array: string[],
+  title: string,
+): Promise<MessageEmbed | Message | Message[]> {
   if (!array.length) {
     return msg.say(
       `The list is currently emtpy! use ${array}add <role>`

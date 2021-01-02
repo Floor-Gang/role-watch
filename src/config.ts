@@ -48,10 +48,10 @@ export default class Config {
      */
     public static saveConfig() {
       const doc = safeLoad(fs.readFileSync(
-        './config.yml',
+        Config.LOCATION,
         'utf8',
       )) as Config;
 
-      fs.writeFileSync('./config.yml', safeDump(doc), 'utf8');
+      fs.writeFileSync(Config.LOCATION, safeDump(doc), 'utf8');
     }
 }

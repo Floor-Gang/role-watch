@@ -41,18 +41,23 @@ export default class whitelistCommand extends commando.Command {
     msg: commando.CommandoMessage,
     { choice, roleID }: { choice: string, roleID: string },
   ): Promise<any> {
-    if (choice.toLowerCase() === 'add') {
-      addRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
+    switch (choice.toLowerCase()) {
+      default: {
+        msg.reply('Please give a choice');
+        break;
+      }
+      case 'add': {
+        addRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
+        break;
+      }
+      case 'remove': {
+        removeRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
+        break;
+      }
+      case 'list': {
+        listRoles(msg, CONFIG.t3roleID, 'Whitelist roles');
+        break;
+      }
     }
-
-    if (choice.toLowerCase() === 'remove') {
-      removeRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
-    }
-
-    if (choice.toLowerCase() === 'list') {
-      listRoles(msg, CONFIG.t3roleID, 'Whitelist roles');
-    }
-
-    return null;
   }
 }

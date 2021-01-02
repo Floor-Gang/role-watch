@@ -42,18 +42,23 @@ export default class colorCommand extends commando.Command {
     msg: commando.CommandoMessage,
     { choice, roleID }: { choice: string, roleID: string },
   ): Promise<any> {
-    if (choice.toLowerCase() === 'add') {
-      addRole(msg, roleID, CONFIG.roles, CONFIG.t3roleID);
+    switch (choice.toLowerCase()) {
+      default: {
+        msg.reply('Please give a choice');
+        break;
+      }
+      case 'add': {
+        addRole(msg, roleID, CONFIG.roles, CONFIG.t3roleID);
+        break;
+      }
+      case 'remove': {
+        removeRole(msg, roleID, CONFIG.roles, CONFIG.t3roleID);
+        break;
+      }
+      case 'list': {
+        listRoles(msg, CONFIG.roles, 'Colour roles');
+        break;
+      }
     }
-
-    if (choice.toLowerCase() === 'remove') {
-      removeRole(msg, roleID, CONFIG.roles, CONFIG.t3roleID);
-    }
-
-    if (choice.toLowerCase() === 'list') {
-      listRoles(msg, CONFIG.roles, 'Colour roles');
-    }
-
-    return null;
   }
 }
