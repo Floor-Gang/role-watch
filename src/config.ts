@@ -46,12 +46,12 @@ export default class Config {
     /**
      * Safe the config to the config.yml default location
      */
-    public saveConfig(): void {
-      const serialized = safeDump(this);
-      fs.writeFileSync(
-        Config.LOCATION,
-        serialized,
+    public static saveConfig() {
+      const doc = safeLoad(fs.readFileSync(
+        './config.yml',
         'utf8',
-      );
+      )) as Config;
+
+      fs.writeFileSync('./config.yml', safeDump(doc), 'utf8');
     }
 }
