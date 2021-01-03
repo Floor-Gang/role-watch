@@ -75,6 +75,7 @@ export function addRole(
   );
 }
 
+
 /**
  * Used to remove a role from an array
  * @param {CommandoMessage} msg Message instance
@@ -149,6 +150,7 @@ export function listRoles(
     .setTitle(title)
     .setTimestamp()
     .setDescription(roleList.join(''));
+
   try {
     return msg.say(embed);
   } catch (_) {
