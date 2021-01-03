@@ -4,6 +4,7 @@ import {
   MessageEmbed,
 } from 'discord.js';
 import { CommandoMessage } from 'discord.js-commando';
+import Config from './config';
 
 /**
  * Used to check role mentions/ID's if they are roles
@@ -67,6 +68,7 @@ export function addRole(
 
   // Otherwise finally add it to the list
   array.push(RoleID);
+  Config.saveConfig();
 
   return msg.say(
     `I have added the role \`${role.name}\` to the list! ✅`,
@@ -110,6 +112,7 @@ export function removeRole(
 
   // Removes the role from the array with the index number
   array.splice(roleIndex, 1);
+  Config.saveConfig();
 
   return msg.say(
     `I have removed the role \`${role.name} \` from the list ✅`

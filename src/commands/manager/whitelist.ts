@@ -5,7 +5,6 @@ import {
   removeRole,
 } from '../../utils';
 import { CONFIG, rolePerms } from '../../globals';
-import Config from '../../config';
 
 export default class whitelistCommand extends commando.Command {
   constructor(client: commando.CommandoClient) {
@@ -27,6 +26,7 @@ export default class whitelistCommand extends commando.Command {
           prompt: 'Add, Remove or List',
           type: 'string',
           oneOf: ['add', 'remove', 'list'],
+          default: '',
         },
         {
           key: 'roleID',
@@ -42,20 +42,18 @@ export default class whitelistCommand extends commando.Command {
     msg: commando.CommandoMessage,
     { choice, roleID }: { choice: string, roleID: string },
   ): Promise<any> {
-    if (choice.toLowerCase() === 'add') {
-      addRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
-      Config.saveConfig();
-    }
+    switch (choice.toLowerCase()) {
+      case 'add':
+        return addRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
 
-    if (choice.toLowerCase() === 'remove') {
-      removeRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
-      Config.saveConfig();
-    }
+      case 'remove':
+        return removeRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
 
-    if (choice.toLowerCase() === 'list') {
-      listRoles(msg, CONFIG.t3roleID, 'Whitelist roles');
-    }
+      case 'list':
+        return listRoles(msg, CONFIG.t3roleID, 'Colour roles');
 
-    return null;
+      default:
+        return msg.reply('Please give a choice\n`add <role>`, `remove <role>`, `list`');
+    }
   }
 }
