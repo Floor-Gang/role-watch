@@ -5,6 +5,7 @@ import {
   removeRole,
 } from '../../utils';
 import { CONFIG, rolePerms } from '../../globals';
+import Config from '../../config';
 
 export default class whitelistCommand extends commando.Command {
   constructor(client: commando.CommandoClient) {
@@ -43,10 +44,12 @@ export default class whitelistCommand extends commando.Command {
   ): Promise<any> {
     if (choice.toLowerCase() === 'add') {
       addRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
+      Config.saveConfig();
     }
 
     if (choice.toLowerCase() === 'remove') {
       removeRole(msg, roleID, CONFIG.t3roleID, CONFIG.roles);
+      Config.saveConfig();
     }
 
     if (choice.toLowerCase() === 'list') {

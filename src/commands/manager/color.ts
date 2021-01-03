@@ -5,6 +5,7 @@ import {
   removeRole,
 } from '../../utils';
 import { CONFIG, rolePerms } from '../../globals';
+import Config from '../../config';
 
 export default class colorCommand extends commando.Command {
   constructor(client: commando.CommandoClient) {
@@ -44,10 +45,12 @@ export default class colorCommand extends commando.Command {
   ): Promise<any> {
     if (choice.toLowerCase() === 'add') {
       addRole(msg, roleID, CONFIG.roles, CONFIG.t3roleID);
+      Config.saveConfig();
     }
 
     if (choice.toLowerCase() === 'remove') {
       removeRole(msg, roleID, CONFIG.roles, CONFIG.t3roleID);
+      Config.saveConfig();
     }
 
     if (choice.toLowerCase() === 'list') {
